@@ -1,5 +1,4 @@
 import time
-
 import psutil
 
 fake_mem = {}
@@ -19,6 +18,3 @@ def calculate_cpu_usage():
     """Calculate the current CPU usage as a percentage."""
     timestamp, cpu_usage = _collect_cpu_usage()
     fake_mem[timestamp] = cpu_usage
-
-
-cpu_data_history = []
