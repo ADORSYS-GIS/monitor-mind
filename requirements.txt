@@ -3,3 +3,4 @@ jupyterlab
 notebook
 flask
 Flask-APScheduler
+prometheus-client
