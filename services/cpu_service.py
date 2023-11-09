@@ -1,4 +1,5 @@
 import time
+
 import psutil
 
 fake_mem = {}
@@ -6,8 +7,8 @@ fake_mem = {}
 
 def _collect_cpu_usage():
     cpu_usage = psutil.cpu_percent(interval=1)
-    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")  # Format the timestamp as desired
-    return timestamp, cpu_usage
+    timestamp = time.time()
+    return int(timestamp * 1000), cpu_usage
 
 
 def get_cpu_usage_array():
