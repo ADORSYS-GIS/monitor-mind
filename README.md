@@ -16,12 +16,17 @@ MonitorMind is an automated system monitoring tool designed to provide real-time
 ```bash
 git clone https://github.com/ADORSYS-GIS/monitor-mind
 cd monitor-mind
-pip install -r requirements.txt
 ```
 
 ## Usage
 
 Run the Flask application:
+
+```bash
+python3 app.py
+```
+
+-- or --
 
 ```bash
 flask run

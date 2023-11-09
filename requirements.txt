@@ -1,3 +1,5 @@
-psutil=
-jupyterlab=
-notebook=
+psutil
+jupyterlab
+notebook
+flask
+Flask-APScheduler
