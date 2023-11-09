@@ -5,6 +5,8 @@ from flask_apscheduler import APScheduler
 import services.cpu_service as cpu_service
 import services.memory_service as memory_service
 
+# Import disk usage library
+import psutil
 
 # Add other necessary imports here
 
@@ -51,6 +53,28 @@ def get_memory():
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
 
+# This portion of the code is used to check Disk Usage and Availability Information
+# Disk Usage Information
+print("                       ")
+print("Disk Usage Information") 
+print("------------------------")
+disk_usage = psutil.disk_usage('/')      #The "/" (root) can be changed to any other directory of the user's choice
+print(f"Total: {disk_usage.total}")
+print(f"Used: {disk_usage.used}")
+print(f"Free: {disk_usage.free}")
+print(f"Percentage: {disk_usage.percent}%")
+
+# Disk Availability Information
+print("                             ")
+print("Disk Availability Information")
+print("------------------------------")
+disk_avail = psutil.disk_partitions()
+for partition in disk_avail:
+    print(f"Device: {partition.device}")
+    print(f"Mountpoint: {partition.mountpoint}")
+    print(f"Filesystem: {partition.fstype}")
+    print(f"Options: {partition.opts}")
+    print("----------------------------------------------------------------------------")
 
 if __name__ == '__main__':
     app.run(debug=True, port=2376)
