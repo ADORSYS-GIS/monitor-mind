@@ -5,7 +5,7 @@ fake_mem = {}
 
 
 def _collect_cpu_usage():
-    cpu_usage = psutil.cpu_percent(interval=1, percpu=True)
+    cpu_usage = psutil.cpu_percent(interval=1)
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S")  # Format the timestamp as desired
     return timestamp, cpu_usage
 
