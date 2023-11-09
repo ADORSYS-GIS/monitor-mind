@@ -1,14 +1,13 @@
 ---
 name: Content issue template
-about: This template is for user-submitted documentation requests.
+about: This template is for an issue
 
 ---
 
 # Request type
 <!-- Select the appropriate option -->
-- [x] Please close this issue, I accidentally submitted it without adding any details
-- [ ] New documentation
-- [ ] Correction or update
+- [x] Implementation of a new feature
+- [ ] Request for explanation, Correction or update
 
 
 # Details

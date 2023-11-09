@@ -1,41 +1,51 @@
-# SysPulse: Automated System Monitoring Tool
+
+# MonitorMind: Automated System Monitoring Tool
 
 ## Overview
-SysPulse is an automated tool designed to monitor various system metrics such as CPU usage, RAM, SWAP, Disk Usage, and network statistics. This tool provides real-time insights into system performance and alerts users about potential issues. Developed as a collaborative project by students, SysPulse aims to combine the power of Python with Unix/Bash scripting for efficient system monitoring.
+MonitorMind is an automated system monitoring tool designed to provide real-time insights into various system metrics such as CPU usage, RAM, Swap usage, and system processes. Developed as a Flask web application, MonitorMind utilizes Python's `psutil` library to gather system data, presenting it in a user-friendly web interface.
 
-## Features
-- **CPU Monitoring**: Track CPU usage to detect periods of high usage.
-- **Memory Monitoring**: Monitor RAM and SWAP usage to manage system memory resources.
-- **Disk Usage Monitoring**: Keep an eye on disk space usage to prevent storage issues.
-- **Process Tracking**: List and monitor all active processes in the system.
-- **Network Statistics**: (Optional) Monitor network usage and traffic.
-- **Alert System**: Receive notifications for critical metric thresholds.
-- **User-Friendly Dashboard**: View real-time data through a web-based dashboard.
-- **Historical Data Analysis**: Store and view historical data for trend analysis.
+## Key Features
+- **CPU Monitoring**: Real-time monitoring of CPU usage.
+- **Memory Monitoring**: Track RAM and swap usage.
+- **Process Tracking**: Monitor and display active system processes.
+- **Real-Time Updates**: Frontend updates using polling to display the latest data.
+- **User-Friendly Dashboard**: A simple and intuitive web interface for viewing system metrics.
 
 ## Installation
-(Provide detailed steps on how to install the SysPulse tool. Include requirements, dependencies, and any necessary environment setup.)
 
 ```bash
-# Example installation steps
-git clone https://github.com/your-repository/SysPulse.git
-cd SysPulse
+git clone https://github.com/ADORSYS-GIS/monitor-mind
+cd monitor-mind
 pip install -r requirements.txt
 ```
 
 ## Usage
-(Explain how to use the tool. Include steps to start monitoring, view the dashboard, and any command-line options available.)
+
+Run the Flask application:
 
 ```bash
-# Example usage commands
-python syspulse.py start
+flask run
 ```
 
-## Contributing
-(Provide guidelines on how contributors can participate in the project. Include instructions for branching, committing, and submitting pull requests.)
+Navigate to the provided local server address in your web browser to view the monitoring dashboard.
 
-## License
-(Include information about the project's license or link to the LICENSE file.)
+## System Data Retrieval
+
+MonitorMind uses the `psutil` library to retrieve system data:
+
+- **CPU Usage**: `psutil.cpu_percent(interval=1)`
+- **Memory Usage**: `psutil.virtual_memory()`
+- **Swap Usage**: `psutil.swap_memory()`
+- **System Processes**: `psutil.process_iter(attrs=['pid', 'name'])`
+
+## Contributing
+
+We welcome contributions to MonitorMind. Please read our contributing guidelines before submitting pull requests.
 
 ## Acknowledgements
-(Recognize contributors, mentors, and any resources that helped in the development of the project.)
+
+Special thanks to all the contributors and students involved in this project for their hard work and dedication.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
