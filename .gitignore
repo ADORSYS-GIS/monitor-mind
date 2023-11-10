@@ -2,3 +2,4 @@ venv
 .vscode
 .idea
 services/__pycache__/
+templates/index.html
