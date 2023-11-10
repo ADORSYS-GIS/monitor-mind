@@ -55,14 +55,20 @@ def actualise_cpu_data():
 
 # This portion of the code is used to check Disk Usage and Availability Information
 # Disk Usage Information
-print("                       ")
-print("Disk Usage Information") 
-print("------------------------")
-disk_usage = psutil.disk_usage('/')      #The "/" (root) can be changed to any other directory of the user's choice
-print(f"Total: {disk_usage.total}")
-print(f"Used: {disk_usage.used}")
-print(f"Free: {disk_usage.free}")
-print(f"Percentage: {disk_usage.percent}%")
+def get_disk_usage():
+    partitions = psutil.disk_partitions()
+    disk_info = []
+    print("                       ")
+    print("Disk Usage Information") 
+    print("------------------------")
+    disk_usage = psutil.disk_usage('/')      #The "/" (root) can be changed to any other directory of the user's choice
+    print(f"Total: {disk_usage.total}")
+    print(f"Used: {disk_usage.used}")
+    print(f"Free: {disk_usage.free}")
+    print(f"Percentage Used: {disk_usage.percent}%")
+    
+    return disk_info
+disk_space = get_disk_usage()
 
 # Disk Availability Information
 print("                             ")
@@ -74,7 +80,7 @@ for partition in disk_avail:
     print(f"Mountpoint: {partition.mountpoint}")
     print(f"Filesystem: {partition.fstype}")
     print(f"Options: {partition.opts}")
-    print("----------------------------------------------------------------------------")
+    print("---------------------------------------------------------------------------")
 
 if __name__ == '__main__':
     app.run(debug=True, port=2376)
