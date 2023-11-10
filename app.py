@@ -4,7 +4,7 @@ from flask_apscheduler import APScheduler
 # Import service modules
 import services.cpu_service as cpu_service
 import services.memory_service as memory_service
-
+import services.network_service as network_service
 
 # Add other necessary imports here
 
@@ -45,13 +45,28 @@ def get_memory():
     return jsonify(ram_usage_history=ram_usage, swap_usage_history=swap_usage)
 
 
+@app.route('/api/network')
+def get_network():
+    """API endpoint to get network usage."""
+    network_timestamps, network_usage = network_service.get_network_usage()
+    #Endpoint to retrieve network usage data
+    if network_timestamps is None or network_usage is None:
+        # Handle the case when network data is not available
+        return jsonify({'error': 'Network data not available'})
+    else:
+        return jsonify({
+        'timestamps': network_timestamps,
+        'usage': network_usage
+        })
+
 # Add other API endpoints for additional resources
 
 @scheduler.task('interval', id='cpu_get_data', seconds=15, misfire_grace_time=1000)
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
 
+   
 
 if __name__ == '__main__':
     app.run(debug=True, port=2376)
-      
+

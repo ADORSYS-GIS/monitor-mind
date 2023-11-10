@@ -52,12 +52,24 @@ function updateMemoryHistoryCharts() {
         });
     // Repeat for other resources
 }
-
+function updateNetworkHistoryCharts() {
+    // Function to fetch and update charts with historical data
+    fetch('/api/network')
+        .then(response => response.json())
+        .then(data => {
+            // Update the Network history chart with 'data.cpu_usage_history'
+            const network_timestamps = data.network_timestamps;
+            const network_usage = data.network_cpu_usage;
+            createResourceChart('network-data', 'Network Usage', { labels: network_timestamps, values: network_usage });
+        });
+    // Repeat for other resources
+}
 
 // Path: static/js/polling.js
 function afterLoad() {
     updateCPUHistoryCharts();
     updateMemoryHistoryCharts();
+    updateNetworkHistoryCharts();
 }
 
 window.onload = () => {
