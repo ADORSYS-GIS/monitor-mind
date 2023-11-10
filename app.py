@@ -1,6 +1,5 @@
 from flask import Flask, render_template, jsonify
 from flask_apscheduler import APScheduler
-import psutil
 
 # Import service modules
 import services.cpu_service as cpu_service
