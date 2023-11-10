@@ -140,3 +140,13 @@ python test_process_monitoring.py
 # Conclusion 
 
 We were able to write document a python script which will list, monitor and test to validate process monitoring.
+
+We're going to use git to perform the following tasks:
+
+- clone the main repository 
+
+  git clone  https://github.com/ADORSYS-GIS/monitor-mind.git
+
+create a branch where all you work will be added onto
+    
+    git branch <branch name>.
