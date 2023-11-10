@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 from flask_apscheduler import APScheduler
+import psutil
 
 # Import service modules
 import services.cpu_service as cpu_service
@@ -50,7 +51,62 @@ def get_memory():
 @scheduler.task('interval', id='cpu_get_data', seconds=15, misfire_grace_time=1000)
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
+    
 
+# Defining threshold for CPU usage 
+
+@app.route('/cpu-usage')
+def cpu_usage():
+    cpu_threshold = 50
+    cpu_usages = psutil.cpu_percent(interval=1)
+    if cpu_usages > cpu_threshold:
+        print(" ")
+        print("CPU usage is above threshold", cpu_threshold, "and it's value is: {}%".format(cpu_usages))
+        print("Please take necessary measures to make your system function accurately...")
+        print("*************************************************************************")
+    else:
+        print(" ")
+        print("CPU usage is stable and it's percentage is: {}%".format(cpu_usages))
+        print("*************************************************************************")
+
+
+
+# Defining threshold for memory usage 
+
+@app.route('/memory-usage')
+def mem_usage():
+    mem_threshold = 60
+    mem_usages = psutil.virtual_memory().used
+    mem_total = psutil.virtual_memory().total
+    mem_percentage = (mem_usages / mem_total) * 100
+    if mem_percentage > mem_threshold:
+        print(" ")
+        print("Memory usage is above threshold", (str(mem_threshold)+'%'), "and it's value is: {}%".format(round(mem_percentage, 2)))
+        print("Please take necessary measures to make your system function accurately...")
+        print("*************************************************************************")
+    else:
+        print(" ")
+        print("The memory usage is stable and it's value is: {}%".format(round(mem_percentage, 2)))
+
+
+
+# Defining threshold for disk usage 
+
+@app.route('/disk-usage')
+def disk_usage():
+    disk_threshold = 70
+    disk_usages = psutil.disk_usage('/').used
+    disk_total = psutil.disk_usage('/').total
+    disk_percentage = (disk_usages / disk_total) * 100
+    if disk_percentage > disk_threshold:
+        print(" ")
+        print("Disk usage is above threshold", (str(disk_threshold)+"%"), "and it's value is: {}%".format(round(disk_percentage, 2)))
+        print("Please take necessary measures to make your system function accurately...")
+        print("*************************************************************************")
+    else:
+        print(" ")
+        print("The disk usage is stable and it's value is: {}%".format(round(disk_percentage, 2)))
+        
 
 if __name__ == '__main__':
     app.run(debug=True, port=2376)
