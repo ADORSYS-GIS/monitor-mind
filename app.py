@@ -8,7 +8,6 @@ import services.memory_service as memory_service
 # Add other necessary imports here
 
 # set configuration values
-app = Flask(__name__)
 class Config:
     SCHEDULER_API_ENABLED = True
 
@@ -39,10 +38,18 @@ def get_cpu():
 
 
 @app.route('/api/memory')
-def get_memory():
-    """API endpoint to get memory (RAM and Swap) usage."""
-    ram_usage, swap_usage = memory_service.get_ram_swap_usage_array()
-    return jsonify(ram_usage_history=ram_usage, swap_usage_history=swap_usage)
+def get_memory_ram():
+        """API endpoint to get memory (RAM) usage."""
+        timestamps, ram_usage = memory_service.get_ram_usage_array()
+        return jsonify(timestamps=timestamps, ram_usage_history=ram_usage)
+    
+@app.route('/api/swap')
+def get_memory_swap():
+        """API endpoint to get memory ( Swap) usage."""
+        timestamps, swap_usage = memory_service.get_swap_usage_array()
+        return jsonify(timestamps=timestamps, swap_usage_history=swap_usage)
+
+
 
 # Add other API endpoints for additional resources
 
@@ -50,11 +57,11 @@ def get_memory():
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
 
-
 @scheduler.task('interval', id='ram_get_data', seconds=15, misfire_grace_time=1000)
 def actualise_ram_data():
     memory_service.calculate_ram_usage()
-   
 
 if __name__ == '__main__':
     app.run(debug=True, port=2376)
+    
+
