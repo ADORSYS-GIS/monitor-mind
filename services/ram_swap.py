@@ -16,6 +16,7 @@ def create_log_file():
     return log_file_path
 
 log_file_path = create_log_file()
+
 def collect_swap_ram_usage():
     mem = psutil.virtual_memory()
     swap = psutil.swap_memory()
