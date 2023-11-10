@@ -40,7 +40,14 @@
                 </div>
             </div>
         </div>
-
+ <div id="swap-usage" class="artboard p-4 bg-base-300 my-4 rounded rounded-lg shadow-md md:shadow-2xl">
+            <h2 class="text-primary">Network Usage</h2>
+            <div id="network-data">
+                <div class="text-center loader">
+                    <span class="loading loading-spinner loading-lg"></span>
+                </div>
+            </div>
+        </div>
     <!-- Add other metric sections here -->
     </div>
 
@@ -49,6 +56,8 @@
 <script src="{{ url_for('static', filename='js/tailwind.js') }}"></script>
 <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
 <script src="{{ url_for('static', filename='js/polling.js') }}"></script>
+
 <!-- Add other necessary scripts here -->
+
 </body>
 </html>
