@@ -34,8 +34,8 @@ flask run
 
 Navigate to the provided local server address in your web browser to view the monitoring dashboard.
 
-## System Monitoring tools
-To understand more about system monitoring, you can checkout this doc system_monitoring_tools.md in the smtdoc folder.
+## System Monitoring tools Detail Documentation
+Check out this Document [smtdoc](smtdoc/system_monitoring_tools.md)
 
 ## System Data Retrieval
 
