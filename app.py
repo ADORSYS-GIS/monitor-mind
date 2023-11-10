@@ -1,14 +1,11 @@
 from flask import Flask, render_template, jsonify
 from flask_apscheduler import APScheduler
-from services.ram_swap import collect_swap_ram_usage, start_collection, create_log_file, get_home_directory
+from services.ram_swap import create_log_file, start_collection
 
 # Import service modules
 import services.cpu_service as cpu_service
 import services.memory_service as memory_service
-import os
-import datetime
-import time
-import psutil
+import threading
 
 
 # Add other necessary imports here
@@ -33,10 +30,11 @@ log_file_path = create_log_file()
 
 @app.route('/')
 def home():
-    start_collection()
+
     """Serve the homepage with system metrics."""
     return render_template('index.html')
-
+collection_thread = threading.Thread(target=start_collection)
+collection_thread.start()
 
 @app.route('/api/cpu')
 def get_cpu():
