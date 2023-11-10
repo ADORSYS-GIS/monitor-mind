@@ -1,3 +1,5 @@
 venv
 .vscode
 .idea
+services/__pycache__
+system_metrics.db

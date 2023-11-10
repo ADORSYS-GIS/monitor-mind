@@ -16,8 +16,10 @@ This is an implementation of a comprehensive system monitoring and data storage 
 - * Security events*: The records of security-related events, such as login attempts, access violations, or malware detections.
 
 # Monitoring tool
-The chosen monitoring tool is ** Prometheus **
+The chosen monitoring tool is ** psutil **
 
 # Data Storage Solution
-I have chosen to use ** Prometheus ** to store data.
+I have chosen to use ** sqlite3 ** to store data.
 
+# ** Usage Guide **
+pip install -r requirement.txt

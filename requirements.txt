@@ -4,3 +4,4 @@ notebook
 flask
 Flask-APScheduler
 prometheus-client
+influxdb-client

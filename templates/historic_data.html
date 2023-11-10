@@ -3,74 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historic Metrics</title>
+    <title>System Metrics - Historic Data</title>
 </head>
 <body>
-    <h1>Historic Metrics</h1>
+    <h1>System Metrics - Historic Data</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Metric Name</th>
-                <th>Value</th>
-                <th>Timestamp</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for data in cpu_data %}
-            <tr>
-                <td>CPU Usage</td>
-                <td>{{ data.value[1] }}</td>
-                <td>{{ data.value[0] }}</td>
-            </tr>
-            {% endfor %}
-
-            {% for data in mem_data %}
-            <tr>
-                <td>Memory Usage</td>
-                <td>{{ data.value[1] }}</td>
-                <td>{{ data.value[0] }}</td>
-            </tr>
-            {% endfor %}
-
-            {% for data in disk_data %}
-            <tr>
-                <td>Disk Usage</td>
-                <td>{{ data.value[1] }}</td>
-                <td>{{ data.value[0] }}</td>
-            </tr>
-            {% endfor %}
-
-            {% for data in network_data %}
-            <tr>
-                <td>Network Traffic</td>
-                <td>{{ data.value[1] }}</td>
-                <td>{{ data.value[0] }}</td>
-            </tr>
-            {% endfor %}
-
-            {% for data in uptime_data %}
-            <tr>
-                <td>System Uptime</td>
-                <td>{{ data.value[1] }}</td>
-                <td>{{ data.value[0] }}</td>
-            </tr>
-            {% endfor %}
-
-            {% for data in loadavg_data %}
-            <tr>
-                <td>Load Average</td>
-                <td>{{ data.value[1] }}</td>
-                <td>{{ data.value[0] }}</td>
-            </tr>
-            {% endfor %}
-
-            {% for data in processcount_data %}
-            <tr>
-                <td>Process Count</td>
-                <td>{{ data.value[1] }}</td>
-                <td>{{ data.value[0] }}</td>
-            </tr>
-        </tbody>
+        <tr>
+            <th>Timestamp</th>
+            <th>CPU Usage</th>
+            <th>Memory Usage</th>
+            <th>Disk Usage</th>
+            <th>Network I/O</th>
+            <th>Uptime</th>
+            <th>Load Average</th>
+            <th>Process Count</th>
+            <th>App Response Time</th>
+            <th>System Logs</th>
+            <th>Security Events</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
+            <td>{{ row[7] }}</td>
+            <td>{{ row[8] }}</td>
+            <td>{{ row[9] }}</td>
+            <td>{{ row[10] }}</td>
+        </tr>
+        {% endfor %}
     </table>
 </body>
 </html>
