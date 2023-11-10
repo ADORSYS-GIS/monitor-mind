@@ -1,0 +1,28 @@
+THIS IS A BRIEF DOCUMENTATION ON THE MOCKUP-DASHBOARD-LAYOUT
+
+        The feature consist of doing a Dashboard layout
+Dashboard Code Documentation
+
+Introduction:
+The purpose of this code documentation is to explain the structure, functionality, and implementation details of the dashboard code.
+The dashboard is a web application that allows users to visualize and analyze data through an interative user interface.
+
+- The code represents a section dedicated to displaying informations such as CPU Usage, memory usage, swap usage etc.
+- The section is contained within a `<div>` element with the ID `cpu-usage` etc.
+- The section has specific CSS classes (`artboard p-4 bg-base-300 my-4 rounded rounded-lg shadow-md md:shadow-2xl`) for styling.
+- The section includes a `<h2>` element with the CSS class `text-primary`, displaying the title "CPU Usage", "PROCESSES" etc.
+- The section includes a data container with the ID `cpu-data`.
+- Within the data container, there is a loader element (`<div>` with the CSS class `text-center loader`) to display a loading spinner.
+- The loader element contains a loading spinner element (`<span>` with the CSS classes `loading loading-spinner loading-lg`).
+
+Usage:
+- Developers can customize the content within the container such as the "CPU USAGE" etc to fetch and display the actual CPU usage data.
+- The provided code can serve as a template for creating visually appealing and functional CPU usage sections.
+- Styling classes can be modified to match the overall design of the application.
+
+Conclusion:
+- The code documentation summarizes the structure and purpose of the provided code for a CPU usage section.
+- Developers can use this documentation to understand and implement similar sections in their web applications.
+
+-So i hope this documentations give a better understanding of how this  code works and how it does to display various information.
+
