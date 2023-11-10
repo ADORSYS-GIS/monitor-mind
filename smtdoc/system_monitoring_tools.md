@@ -60,7 +60,8 @@ We would like to acknowledge the following open-source projects and libraries th
 - Python
 - psutil
 - Flask
-- SQLAlchemy
+- Unit Test
+- Mock
 - Matplotlib
 - Requests
 
