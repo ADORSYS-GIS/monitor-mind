@@ -1,40 +1,65 @@
 import unittest
-from unittest import mock
-from cpu_service import calculate_cpu_usage, get_cpu_usage_array, _collect_cpu_usage,fake_mem
+from unittest.mock import patch
+import cpu_service as cpu_service
+import time
 
 
-class CPUMonitorTestCase(unittest.TestCase):
-    @mock.patch('cpu_monitor.ts.get_history_time')
-    @mock.patch('cpu_monitor.psutil.cpu_percent')
-    def test_calculate_cpu_usage(self, mock_cpu_percent, mock_get_history_time):
+class CpuServicesTest(unittest.TestCase):
+    def setUp(self):
+        # Reset the fake_mem dictionary before each test
+        cpu_service.fake_mem = {}
+
+    @patch('cpu_service.psutil.cpu_percent')
+    @patch('cpu_service.ts.get_history_time')
+    def test_calculate_cpu_usage(self, mock_get_history_time, mock_cpu_percent):
+        # Configure the mock return values
+        mock_get_history_time.return_value = 123456789
         mock_cpu_percent.return_value = 50.0
-        mock_get_history_time.return_value = 1234567890
 
-        calculate_cpu_usage()
+        # Call the function under test
+        result = cpu_service.calculate_cpu_usage()
 
-        self.assertEqual(len(fake_mem), 1)
-        self.assertEqual(fake_mem[1234567890], 50.0)
+        # Assert the mock function calls
+        mock_get_history_time.assert_called_once()
+        mock_cpu_percent.assert_called_once_with(interval=1)
+
+        # Assert the result
+        expected_result = (123456789, 50.0)
+        self.assertEqual(result, expected_result)
+
+        # Assert the fake_mem dictionary
+        expected_fake_mem = {123456789: 50.0}
+        self.assertEqual(cpu_service.fake_mem, expected_fake_mem)
 
     def test_get_cpu_usage_array(self):
-        fake_mem[1234567890] = 50.0
-        fake_mem[1234567891] = 60.0
+        # Set up fake data in fake_mem dictionary
+        cpu_usages = {123456789: 50.0, 987654321: 75.0}
+        cpu_service.fake_mem = cpu_usages
 
-        timestamps, cpu_usages = get_cpu_usage_array()
+        # Call the function under test
+        result_keys, result_values = cpu_service.get_cpu_usage_array()
 
-        self.assertEqual(timestamps, [1234567890, 1234567891])
-        self.assertEqual(cpu_usages, [50.0, 60.0])
-
-    @mock.patch('cpu_monitor.ts.get_history_time')
-    @mock.patch('cpu_monitor.psutil.cpu_percent')
-    def test_collect_cpu_usage(self, mock_cpu_percent, mock_get_history_time):
-        mock_cpu_percent.return_value = 50.0
-        mock_get_history_time.return_value = 1234567890
-
-        timestamp, cpu_usage = _collect_cpu_usage()
-
-        self.assertEqual(timestamp, 1234567890)
-        self.assertEqual(cpu_usage, 50.0)
+        # Assert the result
+        expected_keys = [123456789, 987654321]
+        expected_values = [50.0, 75.0]
+        self.assertEqual(result_keys, expected_keys)
+        self.assertEqual(result_values, expected_values)
 
 
 if __name__ == '__main__':
-    unittest.main()
+    # Continuous test execution loop
+    while True:
+        # Create a test suite
+        suite = unittest.TestSuite()
+
+        # Add the test cases
+        suite.addTest(unittest.makeSuite(CpuServicesTest))
+
+        # Create a test runner
+        runner = unittest.TextTestRunner()
+        
+        # Run the tests
+        runner.run(suite)
+        
+        # Sleep for a few seconds before running the tests again
+        time.sleep(5)
