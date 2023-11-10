@@ -1,5 +1,4 @@
-psutil
-jupyterlab
-notebook
-flask
-Flask-APScheduler
+Unittest (framework for testing seperate modules)
+moc (unit testing)
+psutil (for retrieving information on running processes and system utilization)
+flask (Allows us to build web applications and APIs)  
