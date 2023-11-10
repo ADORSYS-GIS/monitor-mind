@@ -1,7 +1,4 @@
 venv
 .vscode
 .idea
-services/__pycache__/
-templates/index.html
-__pycache__/test.cpython-310-pytest-7.4.3.pyc
-__pycache__/app.cpython-310.pyc
+**__pycache__/
