@@ -5,7 +5,6 @@ from flask_apscheduler import APScheduler
 import services.cpu_service as cpu_service
 import services.memory_service as memory_service
 
-
 # Add other necessary imports here
 
 # set configuration values
