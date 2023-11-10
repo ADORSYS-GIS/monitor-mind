@@ -36,22 +36,41 @@ function updateCPUHistoryCharts() {
     // Repeat for other resources
 }
 
+// function updateMemoryHistoryCharts() {
+//     // Function to fetch and update charts with historical data
+//     fetch('/api/memory')
+//         .then(response => response.json())
+//         .then(data => {
+//             // Update the CPU history chart with 'data.cpu_usage_history'
+//             const ram_timestamps = data.ram_timestamps;
+//             const ram_usage = data.ram_cpu_usage;
+//             createResourceChart('memory-data', 'RAM Usage', { labels: ram_timestamps, values: ram_usage });
+
+//             const swap_timestamps = data.swap_timestamps;
+//             const swap_usage = data.swap_cpu_usage;
+//             createResourceChart('swap-data', 'Swap Usage', { labels: swap_timestamps, values: swap_usage });
+//         });
+//     // Repeat for other resources
+// }
+
 function updateMemoryHistoryCharts() {
     // Function to fetch and update charts with historical data
     fetch('/api/memory')
         .then(response => response.json())
         .then(data => {
-            // Update the CPU history chart with 'data.cpu_usage_history'
-            const ram_timestamps = data.ram_timestamps;
-            const ram_usage = data.ram_cpu_usage;
+            // Update the RAM history chart with 'data.ram_usage_history'
+            const ram_timestamps = data.timestamps;
+            const ram_usage = data.ram_usage;
             createResourceChart('memory-data', 'RAM Usage', { labels: ram_timestamps, values: ram_usage });
 
-            const swap_timestamps = data.swap_timestamps;
-            const swap_usage = data.swap_cpu_usage;
+            // Update the Swap history chart with 'data.swap_usage_history'
+            const swap_timestamps = data.timestamps;
+            const swap_usage = data.swap_usage;
             createResourceChart('swap-data', 'Swap Usage', { labels: swap_timestamps, values: swap_usage });
         });
     // Repeat for other resources
 }
+
 function updateNetworkHistoryCharts() {
     // Function to fetch and update charts with historical data
     fetch('/api/network')
@@ -78,3 +97,7 @@ window.onload = () => {
     // Call this function at regular intervals
     setInterval(afterLoad, 15_000); // Example: Update every 15 seconds
 }
+
+
+
+
