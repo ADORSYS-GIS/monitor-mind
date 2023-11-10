@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify
 from flask_apscheduler import APScheduler
-from services.ram_swap import collect_swap_ram_usage
+from services.ram_swap import collect_swap_ram_usage, start_collection, create_log_file, get_home_directory
 
 # Import service modules
 import services.cpu_service as cpu_service
@@ -29,9 +29,11 @@ scheduler = APScheduler()
 scheduler.init_app(app)
 scheduler.start()
 
+log_file_path = create_log_file()
 
 @app.route('/')
 def home():
+    start_collection()
     """Serve the homepage with system metrics."""
     return render_template('index.html')
 
@@ -49,32 +51,6 @@ def get_memory():
     ram_usage, swap_usage = memory_service.get_memory_usage()
     return jsonify(ram_usage_history=ram_usage, swap_usage_history=swap_usage)
 
-def get_home_directory():
-    """Get the home directory of the user."""
-    return os.path.expanduser("~")
-
-def create_log_file():
-# Create the log file in the home directory if it doesn't exist.
-    log_file_path = os.path.join(get_home_directory(), "ram_swap_usage.log")
-    if not os.path.exists(log_file_path):
-        with open(log_file_path, "w") as file:
-            file.write("Timestamp, RAM Usage (%), Swap Usage (%)\n")
-    return log_file_path
-
-log_file_path = create_log_file()
-
-#Route to collect and start storing the log data of the SWAP and RAM files
-@app.route('/collect')
-def start_collection():
-    while True:
-        ram_usage, swap_usage = collect_swap_ram_usage()
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        log_entry = f"{timestamp}, {ram_usage}, {swap_usage}\n"
-        with open(log_file_path, "a") as file:
-            file.write(log_entry)
-            file.flush()
-        time.sleep(1)  # Adjust the sleep duration as per your requirements
-    return "RAM and Swap usage collection started!"
 
 # Add other API endpoints for additional resources
 
