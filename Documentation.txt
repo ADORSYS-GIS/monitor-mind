@@ -1,0 +1,5 @@
+Once the web app is started, it automatically creates the log file in the home directory of the user.
+To start keeping track of RAM and SWAP usage, user has the access the "/collect" route.
+The web app will start keeping track and storing RAM and SWAP usage till the web app is closed.
+It is made in such a way that if the user closes the app and starts again, it doesn't overwrite the file.
+It appends the new logs to the exiting file 
