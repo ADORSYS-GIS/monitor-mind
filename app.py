@@ -68,8 +68,6 @@ def get_network():
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
 
-   
-
 if __name__ == '__main__':
     app.run(debug=True, port=2376)
 
