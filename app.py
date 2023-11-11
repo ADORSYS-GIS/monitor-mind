@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify
-from flask_apscheduler import APScheduler
+from flask_apscheduler import APScheduler 
 
 # Import service modules
 import services.cpu_service as cpu_service
@@ -10,6 +10,7 @@ import services.network_service as network_service
 
 
 # Add other necessary imports here
+import psutil
 
 # set configuration values
 class Config:
@@ -68,7 +69,21 @@ def get_network():
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
 
+<<<<<<< HEAD
+# Function to track and report running processes
+def track_processes():
+    running_processes = []
+    for process in psutil.process_iter(['pid', 'name']):
+        running_processes.append({'pid': process.info['pid'], 'name': process.info['name']})
+    print("Running Processes:", running_processes)
+
+# Schedule the process tracking function to run every 1 minute
+@scheduler.task('interval', id='process_tracking', minutes=1, misfire_grace_time=1000)
+def track_running_processes():
+    track_processes()
+=======
    
+>>>>>>> 8473f2f75b62e08185b8b1c4ae5b96dfcea2e946
 
 if __name__ == '__main__':
     app.run(debug=True, port=2376)
