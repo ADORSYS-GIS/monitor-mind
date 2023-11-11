@@ -6,6 +6,9 @@ import services.cpu_service as cpu_service
 import services.memory_service as memory_service
 
 
+import services.network_service as network_service
+
+
 # Add other necessary imports here
 import psutil
 
@@ -46,12 +49,27 @@ def get_memory():
     return jsonify(ram_usage_history=ram_usage, swap_usage_history=swap_usage)
 
 
+@app.route('/api/network')
+def get_network():
+    """API endpoint to get network usage."""
+    network_timestamps, network_usage = network_service.get_network_usage()
+    #Endpoint to retrieve network usage data
+    if network_timestamps is None or network_usage is None:
+        # Handle the case when network data is not available
+        return jsonify({'error': 'Network data not available'})
+    else:
+        return jsonify({
+        'timestamps': network_timestamps,
+        'usage': network_usage
+        })
+
 # Add other API endpoints for additional resources
 
 @scheduler.task('interval', id='cpu_get_data', seconds=15, misfire_grace_time=1000)
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
 
+<<<<<<< HEAD
 # Function to track and report running processes
 def track_processes():
     running_processes = []
@@ -63,6 +81,10 @@ def track_processes():
 @scheduler.task('interval', id='process_tracking', minutes=1, misfire_grace_time=1000)
 def track_running_processes():
     track_processes()
+=======
+   
+>>>>>>> 8473f2f75b62e08185b8b1c4ae5b96dfcea2e946
 
 if __name__ == '__main__':
     app.run(debug=True, port=2376)
+
