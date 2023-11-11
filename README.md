@@ -33,6 +33,9 @@ flask run
 
 Navigate to the provided local server address in your web browser to view the monitoring dashboard.
 
+## System Monitoring tools Detail Documentation
+Check out this Document [smtdoc](smtdoc/system_monitoring_tools.md)
+
 ## System Data Retrieval
 
 MonitorMind uses the `psutil` library to retrieve system data:
