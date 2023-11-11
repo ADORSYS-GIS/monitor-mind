@@ -4,7 +4,10 @@ from flask_apscheduler import APScheduler
 # Import service modules
 import services.cpu_service as cpu_service
 import services.memory_service as memory_service
+
+
 import services.network_service as network_service
+
 
 # Add other necessary imports here
 
@@ -63,8 +66,6 @@ def get_network():
 @scheduler.task('interval', id='cpu_get_data', seconds=15, misfire_grace_time=1000)
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
-
-   
 
 if __name__ == '__main__':
     app.run(debug=True, port=2376)

@@ -1,9 +1,13 @@
 venv
 .vscode
-.idea
+
+__pycache__
+.bin
+
 **/__pycache__/
 ipvpmonitoring
 __pycache__
+
 
 
 
