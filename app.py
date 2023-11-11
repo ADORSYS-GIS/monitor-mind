@@ -53,7 +53,7 @@ def get_memory():
 
 # Add other API endpoints for additional resources
 
-@scheduler.task('interval', id='cpu_get_data', seconds=15, misfire_grace_time=1000)
+@scheduler.task('interval', id='cpu_get_data', seonds=15, misfire_grace_time=1000)
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
 
