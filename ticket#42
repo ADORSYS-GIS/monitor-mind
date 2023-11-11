@@ -1,0 +1,66 @@
+INTRODUCTION:
+A document on the setup and usage instructions for the monitoring tools used in MonitorMind.
+MonitorMind: Automated System Monitoring Tool
+
+Overview/Project Scoop.
+MonitorMind is an automated system monitoring tool designed to provide real-time insights into various system metrics such as CPU usage, RAM, Swap usage, and system processes. Developed as a Flask web application, MonitorMind utilizes Python's `psutil` library to gather system data, presenting it in a user-friendly web interface. Kindly read the following for better understanding.
+     
+     Features
+Basically the MonitorMind consist of 5 main features.
+1. CPU Monitoring: The CPU monitor is a program or application designed to track performance and health metrics related to the central processing unit of a computer or networked device. 
+
+ Methods of Measuring CPU Utilization
+Operating system tools, such as Task Manager for Windows, Activity Monitor for macOS, and the Top command for Linux, provide real-time insights into processor usage. These utilities are readily available and require no additional installation.
+
+2. Memory Monitoring: Memory use is tracked so that unexpected changes in usage can be detected, analyzed, and corrected. Memory monitoring tool monitors proactive memory usage with the help of highly customizable reports to provide in-depth insights into your memory usage.
+  
+ Track RAM and swap usage.
+ Press Ctrl + Shift + Esc to launch Task Manager. Or, right-click the Taskbar and select Task Manager. Select the Performance tab to see current RAM usage displayed in the Memory box, and total RAM capacity listed under Physical Memory while Swap usage is the amount of memory that is being used by a process that has been moved to swap space. Swap space is a section of the hard drive or solid-state drive that is used as a substitute for physical memory (RAM) when the system runs out of available RAM. When a process is swapped out, it is temporarily stored in the swap space, freeing up RAM for other processes.
+
+3. Process Tracking:this helps to monitor and display active system processes.
+
+4. Real-Time Updates This enables Frontend updates using polling to display the latest data.
+
+5. User-Friendly Dashboard: This ia actually a simple and intuitive web interface for viewing system metrics.
+
+Installation
+Using python bash
+Cloning of the repository: git clone https://github.com/ADORSYS-GIS/monitor-mind
+This is actually creating a copy of a remote repository on a local machine which allows developers to work on a project without having to be connected to the internet or to a central server. Cloning is usually done using a version control system, such as Git, which allows for tracking changes and collaborating on projects. 
+Navigating into the project coor using cd monitor-mind 
+
+Usage
+
+Run the Flask application:
+
+bash
+python3 app.py
+     or
+bash
+flask run
+After this you can now:
+Navigate to the provided local server address in your web browser to view the monitoring dashboard.
+
+Application System Data Retrieval
+MonitorMind uses the `psutil` library to retrieve system data:
+
+-CPU Usage`psutil.cpu_percent(interval=1)`
+-Memory Usage`psutil.virtual_memory()`
+-Swap Usage`psutil.swap_memory()`
+-System Processes`psutil.process_iter(attrs=['pid', 'name'])`
+
+Contributing
+We welcome contributions to Monitor-mind
+
+License.
+This project is licensed under the [MIT License]
+
+Acknowledgements
+Python/vscode
+Flask
+Bash
+Github
+Web browser
+Not forgetting all students involved in this project for their hard work and dedication.
+                         THANK YOU!
+   
