@@ -33,9 +33,11 @@ def calculate_ram_usage():
     """Calculate the current RAM usage as a percentage."""
     timestamp, ram_usage = _collect_ram_usage()
     fake_mem[timestamp] = ram_usage
+    return timestamp, ram_usage
     
     
 def calculate_swap_usage():
     """Calculate the current SWAP usage as a percentage."""
     timestamp, swap_usage = _collect_swap_usage()
     fake_swap[timestamp] = swap_usage
+    return timestamp, swap_usage
