@@ -38,25 +38,11 @@ def get_cpu():
     return jsonify(timestamps=timestamps, cpu_usage=cpu_usage)
 
 
-# @app.route('/api/memory')
-# def get_memory():
-#     """API endpoint to get memory (RAM and Swap) usage."""
-#     ram_usage, swap_usage = memory_service.get_memory_usage_array()
-#     return jsonify(ram_usage_history=ram_usage, swap_usage_history=swap_usage)
-
-
 @app.route('/api/memory')
-def get_memory_ram():
-        """API endpoint to get memory (RAM) usage."""
-        timestamps, ram_usage = memory_service.get_ram_usage_array()
-        return jsonify(timestamps=timestamps, ram_usage_history=ram_usage)
-    
-@app.route('/api/swap')
-def get_memory_swap():
-        """API endpoint to get memory ( Swap) usage."""
-        timestamps, swap_usage = memory_service.get_swap_usage_array()
-        return jsonify(timestamps=timestamps, swap_usage_history=swap_usage)
-
+def get_memory():
+    """API endpoint to get memory (RAM and Swap) usage."""
+    ram_usage, swap_usage = memory_service.get_memory_usage_array()
+    return jsonify(ram_usage_history=ram_usage, swap_usage_history=swap_usage)
 
 @app.route('/api/network')
 def get_network():
