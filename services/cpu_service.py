@@ -1,6 +1,6 @@
 import time
 import psutil
-import services.time_service as ts
+import time_service as ts
 
 fake_mem = {}
 
@@ -19,3 +19,4 @@ def calculate_cpu_usage():
     """Calculate the current CPU usage as a percentage."""
     timestamp, cpu_usage = _collect_cpu_usage()
     fake_mem[timestamp] = cpu_usage
+    return timestamp, cpu_usage
