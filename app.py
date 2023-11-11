@@ -17,6 +17,12 @@ class Config:
 app = Flask(__name__)
 app.config.from_object(Config())
 
+@app.route("/")
+@app.route("/index")
+def inddex():
+    return render_template("index.html")
+
+    
 # initialize scheduler
 scheduler = APScheduler()
 # if you don't wanna use a config, you can set options here:
