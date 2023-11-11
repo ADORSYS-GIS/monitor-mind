@@ -1,5 +1,7 @@
 venv
 .vscode
 .idea
-services/__pycache__
+templates/historic_data
+services/__pycache
 system_metrics.db
+

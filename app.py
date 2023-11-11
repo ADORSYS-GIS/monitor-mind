@@ -4,11 +4,7 @@ import psutil
 import sqlite3
 import time
 from threading import Thread
-
-# Import service modules
-import services.cpu_service as cpu_service
-import services.memory_service as memory_service
-
+from services import cpu_service, memory_service, disk_usage, network_io, uptime, load_avg, process_count, app_response_time, system_logs, security_events
 
 # Add other necessary imports here
 
@@ -57,29 +53,52 @@ def actualise_cpu_data():
 
 
 ## *******  HISTORICAL DATA STORAGE AND VIEWING *********
-@app.route('/api/cpu')
-def get_cpu_usage():
 
-    cpu_usage = psutil.cpu_percent()
-    return jsonify(cpu_usage=cpu_usage)
+fake_mem = {}
 
-@app.route('/api/memory')
-def get_memory_usage():
+def _collect_metrics():
+    timestamp = int(time.time())
+    cpu_usage_value = cpu_service.calculate_cpu_usage()
+    memory_usage_value = memory_service.collect_memory_usage()
+    disk_usage_value = disk_usage.collect_disk_usage()
+    network_io_value = network_io.collect_network_io()
+    uptime_value = uptime.collect_uptime()
+    load_avg_value = load_avg.collect_load_avg()
+    process_count_value = process_count.collect_process_count()
+    app_response_time_value = app_response_time.collect_app_response_time()
+    system_logs_value = system_logs.collect_system_logs()
+    security_events_value = security_events.collect_security_events()
 
-    memory_usage = psutil.virtual_memory().percent
-    return jsonify(memory_usage=memory_usage)
+    fake_mem[timestamp] = (cpu_usage_value, memory_usage_value, disk_usage_value,
+                            network_io_value, uptime_value, load_avg_value, process_count_value,
+                            app_response_time_value, system_logs_value, security_events_value)
 
-@app.route('/api/disk')
-def get_disk_usage():
+# Save metrics to database
+def save_metrics_to_db():
+    conn = sqlite3.connect('system_metrics.db')
+    c = conn.cursor()
 
-    disk_usage = psutil.disk_usage('/').percent
-    return jsonify(disk_usage=disk_usage)
+    for timestamp, metrics in fake_mem.items():
+        cpu_usage_value, memory_usage_value, disk_usage_value, network_io_value, uptime_value, load_avg_value, process_count_value, app_response_time_value, system_logs_value, security_events_value = metrics
 
-@app.route('/api/network')
-def get_network_io():
+        c.execute('''INSERT INTO metrics (timestamp, cpu_usage, memory_usage, disk_usage, network_io,
+                     uptime, load_avg, process_count, app_response_time, system_logs, security_events)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', (timestamp, cpu_usage_value, memory_usage_value,
+                                                                  disk_usage_value, network_io_value, uptime_value,
+                                                                  load_avg_value, process_count_value,
+                                                                  app_response_time_value, system_logs_value,
+                                                                  security_events_value))
 
-    network_io = psutil.net_io_counters().bytes_sent + psutil.net_io_counters().bytes_recv
-    return jsonify(network_io=network_io)
+    conn.commit()
+    conn.close()
+
+# Run metrics collection loop
+def run_metrics_collection():
+    while True:
+        print("Collecting metrics...")
+        _collect_metrics()
+        save_metrics_to_db()
+        time.sleep(60)
 
 @app.route('/historic-data')
 def render_historic_data():
@@ -91,53 +110,30 @@ def render_historic_data():
 
     conn.close()
 
-    return render_template('historic_data.html', data=data)
+    # Convert data to a list of dictionaries
+    result = []
+    for row in data:
+        result.append({
+            'timestamp': row[0],
+            'cpu_usage': row[1],
+            'memory_usage': row[2],
+            'disk_usage': row[3],
+            'network_io': row[4],
+            'uptime': row[5],
+            'load_avg': row[6],
+            'process_count': row[7],
+            'app_response_time': row[8],
+            'system_logs': row[9],
+            'security_events': row[10]
+        })
 
-def collect_metrics():
-    conn = sqlite3.connect('system_metrics.db')
-    c = conn.cursor()
-
-    timestamp = int(time.time())
-    cpu_usage = psutil.cpu_percent()
-    memory_usage = psutil.virtual_memory().percent
-    disk_usage = psutil.disk_usage('/').percent
-    network_io = psutil.net_io_counters().bytes_sent + psutil.net_io_counters().bytes_recv
-    uptime = psutil.boot_time()
-    load_avg = psutil.getloadavg()[0]
-    process_count = len(psutil.pids())
-    app_response_time = 0.0
-    system_logs = ""
-    security_events = ""
-
-    c.execute('''INSERT INTO metrics (timestamp, cpu_usage, memory_usage, disk_usage, network_io,
-                 uptime, load_avg, process_count, app_response_time, system_logs, security_events)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', (timestamp, cpu_usage, memory_usage, disk_usage,
-                                                              network_io, uptime, load_avg, process_count,
-                                                              app_response_time, system_logs, security_events))
-
-    conn.commit()
-    conn.close()
-
-def run_metrics_collection():
-    while True:
-        print("Collecting metrics...")
-        collect_metrics()
-        time.sleep(60)
+    # Return data as a JSON response
+    return jsonify(result)
 
 if __name__ == '__main__':
-    conn = sqlite3.connect('system_metrics.db')
-    c = conn.cursor()
-
-    c.execute('''CREATE TABLE IF NOT EXISTS metrics
-                 (timestamp INTEGER, cpu_usage REAL, memory_usage REAL, disk_usage REAL, network_io REAL,
-                 uptime REAL, load_avg REAL, process_count INTEGER, app_response_time REAL,
-                 system_logs TEXT, security_events TEXT)''')
-
-    conn.commit()
-    conn.close()
-
     metrics_thread = Thread(target=run_metrics_collection)
     metrics_thread.start()
 
     app.run(debug=True, port=2376)
+
 ## *******  END HISTORICAL DATA STORAGE AND VIEWING *********
