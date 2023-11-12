@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify
 from flask_apscheduler import APScheduler
-from services.ram_swap import create_log_file, start_collection
+from services.ram_swap_logs import create_log_file, start_collection
 
 # Import service modules
 import services.cpu_service as cpu_service
@@ -28,6 +28,7 @@ scheduler = APScheduler()
 scheduler.init_app(app)
 scheduler.start()
 
+log_file_path = create_log_file()
 
 @app.route('/')
 def home():
