@@ -2,3 +2,14 @@ venv
 .vscode
 .idea
 **__pycache__/
+
+
+__pycache__
+.bin
+
+**/__pycache__/
+
+
+
+
+
