@@ -52,6 +52,7 @@ function updateMemoryHistoryCharts() {
         });
     // Repeat for other resources
 }
+
 function updateNetworkHistoryCharts() {
     // Function to fetch and update charts with historical data
     fetch('/api/network')
@@ -78,3 +79,7 @@ window.onload = () => {
     // Call this function at regular intervals
     setInterval(afterLoad, 15_000); // Example: Update every 15 seconds
 }
+
+
+
+
