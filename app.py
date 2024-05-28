@@ -5,15 +5,17 @@ from services.ram_swap_logs import create_log_file, start_collection
 # Import service modules
 import services.cpu_service as cpu_service
 import services.memory_service as memory_service
+
+
 import services.network_service as network_service
 import threading
 
 # Add other necessary imports here
-import psutil
 
 # set configuration values
 class Config:
     SCHEDULER_API_ENABLED = True
+
 
 # create app
 app = Flask(__name__)
@@ -32,9 +34,9 @@ log_file_path = create_log_file()
 def home():
     """Serve the homepage with system metrics."""
     return render_template('index.html')
-
 collection_thread = threading.Thread(target=start_collection)
 collection_thread.start()
+
 
 @app.route('/api/cpu')
 def get_cpu():
@@ -42,24 +44,26 @@ def get_cpu():
     timestamps, cpu_usage = cpu_service.get_cpu_usage_array()
     return jsonify(timestamps=timestamps, cpu_usage=cpu_usage)
 
+
 @app.route('/api/memory')
 def get_memory():
     """API endpoint to get memory (RAM and Swap) usage."""
     ram_usage, swap_usage = memory_service.get_memory_usage()
     return jsonify(ram_usage_history=ram_usage, swap_usage_history=swap_usage)
 
+
 @app.route('/api/network')
 def get_network():
     """API endpoint to get network usage."""
     network_timestamps, network_usage = network_service.get_network_usage()
-    # Endpoint to retrieve network usage data
+    #Endpoint to retrieve network usage data
     if network_timestamps is None or network_usage is None:
         # Handle the case when network data is not available
         return jsonify({'error': 'Network data not available'})
     else:
         return jsonify({
-            'timestamps': network_timestamps,
-            'usage': network_usage
+        'timestamps': network_timestamps,
+        'usage': network_usage
         })
 
 # Add other API endpoints for additional resources
@@ -68,17 +72,6 @@ def get_network():
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
 
-# Function to track and report running processes
-def track_processes():
-    running_processes = []
-    for process in psutil.process_iter(['pid', 'name']):
-        running_processes.append({'pid': process.info['pid'], 'name': process.info['name']})
-    print("Running Processes:", running_processes)
-
-# Schedule the process tracking function to run every 1 minute
-@scheduler.task('interval', id='process_tracking', minutes=1, misfire_grace_time=1000)
-def track_running_processes():
-    track_processes()
-
 if __name__ == '__main__':
     app.run(debug=True, port=2376)
+
