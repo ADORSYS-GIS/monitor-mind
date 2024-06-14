@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 from flask_apscheduler import APScheduler
+import psutil
 from services.ram_swap_logs import create_log_file, start_collection
 
 # Import service modules
@@ -71,6 +72,36 @@ def get_network():
 @scheduler.task('interval', id='cpu_get_data', seconds=15, misfire_grace_time=1000)
 def actualise_cpu_data():
     cpu_service.calculate_cpu_usage()
+
+# This portion of the code is used to check Disk Usage and Availability Information
+# Disk Usage Information
+def get_disk_usage():
+    partitions = psutil.disk_partitions()
+    disk_info = []
+    print("                       ")
+    print("Disk Usage Information") 
+    print("------------------------")
+    disk_usage = psutil.disk_usage('/')      #The "/" (root) can be changed to any other directory of the user's choice
+    print(f"Total: {disk_usage.total}")
+    print(f"Used: {disk_usage.used}")
+    print(f"Free: {disk_usage.free}")
+    print(f"Percentage Used: {disk_usage.percent}%")
+    
+    return disk_info
+disk_space = get_disk_usage()
+
+# Disk Availability Information
+print("                             ")
+print("Disk Availability Information")
+print("------------------------------")
+disk_avail = psutil.disk_partitions()
+for partition in disk_avail:
+    print(f"Device: {partition.device}")
+    print(f"Mountpoint: {partition.mountpoint}")
+    print(f"Filesystem: {partition.fstype}")
+    print(f"Options: {partition.opts}")
+    print("---------------------------------------------------------------------------")
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=2376)
